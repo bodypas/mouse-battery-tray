@@ -1,0 +1,33 @@
+[project]
+name = "mouse-battery-tray"
+version = "0.1.0"
+description = "Windows tray icon showing the battery level of an Attack Shark X3 2.4 GHz mouse"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "bodypas" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "hidapi>=0.15.0",
+    "pillow>=13.0.0",
+    "pystray>=0.19.5",
+]
+
+[project.scripts]
+mouse-battery-tray = "mouse_battery_tray.app:main"
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.22.3",
+    "pytest>=9.2.0",
+    "ruff>=0.17.5",
+]
+
+[tool.ruff]
+line-length = 120
