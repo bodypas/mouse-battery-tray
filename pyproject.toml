@@ -1,6 +1,6 @@
 [project]
 name = "mouse-battery-tray"
-version = "0.1.0"
+version = "0.2.0"
 description = "Windows tray icon showing the battery level of an Attack Shark X3 2.4 GHz mouse"
 readme = "README.md"
 license = "MIT"

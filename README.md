@@ -2,15 +2,17 @@
 
 Windows tray icon that shows the battery level of an **Attack Shark X3** wireless mouse on its 2.4 GHz receiver, in the Windows system tray.
 
-![The mouse icon at 100% in the Windows 11 tray, next to the laptop battery](docs/tray.png)
+![The mouse icon at 100% in the Windows 11 tray](docs/tray.png)
 
 Tested only with an Attack Shark X3 on its 2.4 GHz receiver (`1d57:fa60`) on Windows 11. Other mice that use the same receiver and battery frames may work too; see [Other mice](#other-mice). This project is not affiliated with Attack Shark.
 
 ## The icon
 
-![Icon states: 100%, 30%, 10%, charging, waiting](docs/icon-states.png)
+![Icon states: 100%, 50%, 30%, 10%, charging, waiting](docs/icon-states.png)
 
-The icon is a mouse silhouette coloured by level (red at 20% or below, amber up to 40%, green above) with the percent below the wheel, a bolt in it while the charging cable is plugged in, and a grey loading spinner until the first reading arrives (it stops turning after 20 seconds, since each frame change writes a temporary icon file). Hover for the time of the last reading. A notification fires once per discharge when the level reaches 20%.
+The icon is an oval mouse that fills from the bottom like a battery, green above 40%, amber up to 40% and red at 20% or below, with the percent in white below the wheel. Every number uses the same digit size (the largest at which "100" still keeps a pixel away from the outline). It shows a bolt on a full green mouse while the charging cable is plugged in, and a grey loading spinner until the first reading arrives (it stops turning after 20 seconds, since each frame change writes a temporary icon file). Hover for the time of the last reading. A notification fires once per discharge when the level reaches 20%.
+
+The icon is drawn at the tray's exact pixel size (taken when the app starts), so it stays sharp at any display scaling. The digits use Bahnschrift (Windows 10 1709 and later), falling back to Segoe UI Bold.
 
 ## Run
 
