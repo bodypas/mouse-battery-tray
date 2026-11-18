@@ -12,7 +12,7 @@ from typing import TextIO
 
 import pystray
 
-from mouse_battery_tray import app_identity, autostart, diagnose, single_instance
+from mouse_battery_tray import app_identity, autostart, diagnose, single_instance, tray
 from mouse_battery_tray.alerts import LowBatteryAlert
 from mouse_battery_tray.device import BatteryMonitor
 from mouse_battery_tray.icon import SPINNER_FRAMES, render_icon, render_spinner
@@ -32,11 +32,12 @@ class TrayApp:
         self._waiting_since = time.monotonic()
         self._icon_lock = threading.Lock()  # the spinner and status updates both set the icon
         self._closing = threading.Event()
-        self._spinner = [render_spinner(frame) for frame in range(SPINNER_FRAMES)]
+        self._size = tray.icon_size()
+        self._spinner = [render_spinner(frame, self._size) for frame in range(SPINNER_FRAMES)]
         self._alert = LowBatteryAlert()
-        self._icon = pystray.Icon(
+        self._icon = tray.TrayIcon(
             "mouse-battery-tray",
-            icon=render_icon(self._status),
+            icon=render_icon(self._status, self._size),
             title=describe(self._status),
             menu=pystray.Menu(
                 pystray.MenuItem(lambda _item: describe(self._status), None, enabled=False),
@@ -63,7 +64,7 @@ class TrayApp:
             self._status = status
             if (status.percent, status.charging) != self._shown:
                 self._shown = (status.percent, status.charging)
-                self._icon.icon = render_icon(status)
+                self._icon.icon = render_icon(status, self._size)
         self._icon.title = describe(status)
         self._icon.update_menu()
         if self._alert.should_notify(status):
@@ -132,6 +133,9 @@ def _run_tray(log_dir: Path) -> None:
         logger.info("already running, exiting")
         return
     logger.info("started")
+    if not tray.enable_dpi_awareness():
+        logger.warning("Windows refused DPI awareness; the icon will be stretched and blurry")
+    logger.info("tray icon size: %d px", tray.icon_size())
     app_identity.register(log_dir)
     with open(log_dir / "hang.log", "a", encoding="utf-8") as hang_log:
         try:

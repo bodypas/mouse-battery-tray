@@ -23,7 +23,7 @@ def main() -> None:
     iscc = _find_iscc()  # before the slow PyInstaller step
     BUILD.mkdir(exist_ok=True)
     icon = BUILD / "app.ico"
-    render_app_icon().save(icon, sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64)])
+    render_app_icon().save(icon, sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
     PyInstaller.__main__.run(
         [
             str(ROOT / "src" / "mouse_battery_tray" / "__main__.py"),
